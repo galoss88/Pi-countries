@@ -1,0 +1,27 @@
+.div {
+  width: 600px;
+  height: 490px;
+}
+.formulario {
+  display: flex;
+  flex-direction: block;
+  border-radius: 50px;
+  background-color: chocolate;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+}
+.textos {
+  font-family: cursive, fantasy, Arial, Helvetica, sans-serif; /* Tipo de letra */
+  font-size: large; /* Tamaño de letra */
+  font-weight: bold; /* Ancho de letras */
+}
+.error {
+  background-color: red;
+}
+.enviar {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+}
