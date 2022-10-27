@@ -1,0 +1,40 @@
+
+.seleccion:hover {
+    color: white;
+    background-color: rgb(44, 36, 3);
+    border: none;
+    cursor: pointer;
+}
+.seleccion {
+  display: inline-flex;
+  margin: 10px;
+  font-family: cursive;
+  font-weight: bold;
+  background-color: rgba(255, 179, 80, 0.542);
+  text-decoration: none;
+  width: 160px;
+  height: 30px;
+}
+.actividadTuristica {
+  display: inline-flex;
+
+  font-family: cursive;
+  font-weight: bold;
+  background-color: rgba(255, 179, 80, 0.542);
+  text-decoration: none;
+  width: 180px;
+  height: 40px;
+}
+.actividadTuristica:hover{
+    color: white;
+    background-color: rgb(44, 36, 3);
+    border: none;
+    cursor: pointer;
+}
+
+.divCountries {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}

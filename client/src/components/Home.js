@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+//IMPORT ESTILO
+import homeStyle from "../styles/Home.module.css";
+//IMPORT DE ACTIONS
 import {
   getCountries,
   getTouristActivity,
@@ -10,18 +13,18 @@ import {
   orderForTouristActivity,
   searchCountry,
 } from "../Redux/actions";
+
+//IMPORT DE COMPONENTES
 import CountryCard from "./CountryCard";
 import Paginado from "./Paginado";
 import Search from "./Search";
 
 function Home(props) {
- 
-  //CARGAR INFORMACION----------------------------
+  //CARGAR INFORMACION DE LOS PAISES Y ACTIVIDADES TURISTICAS----------------------------
   const dispatch = useDispatch();
 
   useEffect(() => {
     props.getCountries();
-    
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -29,12 +32,16 @@ function Home(props) {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   //---------------------------------------------
-
+  //FUNCION RECARGAR PAISES
   function handleClick(e) {
     e.preventDefault();
+    setActivities("default");
+    setContinent("default");
+    setOrderAz("default");
+    setOrderPopulation("default");
+
     props.getCountries();
   }
- 
 
   //PÁGINADO---------------------------------
   const [actualPage, setActualPage] = useState(1);
@@ -61,12 +68,11 @@ function Home(props) {
     setActualPage(pageNumber);
   };
   //--------------------------------------------------
-  //BUSQUEDA
 
   //----------------------------------------------------------
 
-  //Filtrado
-  //Filtrar paises por orden alfabetico.
+  //Filtrado-------------------
+  //Filtrar paises por orden alfabetico.--------------------------------
   // eslint-disable-next-line no-unused-vars
   const [orderAz, setOrderAz] = useState("");
   function functionFilterAsc(e) {
@@ -75,7 +81,7 @@ function Home(props) {
     // setActualPage(1);
     setOrderAz(e.target.value);
   }
-  //Filtrar por continente
+  //Filtrar por continente----------------------------------------
   // eslint-disable-next-line no-unused-vars
   const [continent, setContinent] = useState("");
   function handleFilterContinent(e) {
@@ -83,7 +89,7 @@ function Home(props) {
     setContinent(e.target.value);
   }
 
-  //Filtrar actividad turisticas
+  //Filtrar actividad turisticas-------------------------------
   // eslint-disable-next-line no-unused-vars
   const [activities, setActivities] = useState("");
   function handleFilterActivities(e) {
@@ -93,7 +99,8 @@ function Home(props) {
 
   const touristActivities = useSelector((state) => state.touristActivities);
 
-  //filtrar por Poblacion(POPULATION0)
+  //filtrar por Poblacion(POPULATION0)------------------------
+  // eslint-disable-next-line no-unused-vars
   const [orderPopulation, setOrderPopulation] = useState("");
   const handlePopulation = (e) => {
     dispatch(orderForPopulation(e.target.value));
@@ -102,20 +109,31 @@ function Home(props) {
 
   return (
     <React.Fragment>
-      
-     	
-       <button onClick={props.history.goBack}>Atras</button>
+      <div className={homeStyle.divGeneral}>
+
+      <div>
+      {/* BOTON ATRAS---------------------------------------- */}
+      <button onClick={props.history.goBack} className={homeStyle.seleccion}>
+        Atras
+      </button>
+      {/*COMPONENTE DE BOTON BUSQUEDA-----------------------------------*/}
       <Search
         getCountries={props.getCountries}
         searchCountries={props.searchCountries}
         setActualPage={setActualPage}
       ></Search>
-      <NavLink to={"/createActivity"}>
-        <input type="button" value="Crear Actividad Turistica"></input>
-      </NavLink>
-
-      <button onClick={(e) => handleClick(e)}>Recargar Paises</button>
-      <select onChange={(e) => handleFilterActivities(e)}>
+      
+      {/*//BOTON RECARGAR PAISES-------------------------------*/}
+      <button className={homeStyle.seleccion} onClick={(e) => handleClick(e)}>
+        Recargar Paises
+      </button>
+      {/*//FILTROS:--- 
+      //FILTRO POR ACTIVIDAD TURISTICA-------------------------*/}
+      <select
+        className={homeStyle.seleccion}
+        value={activities}
+        onChange={(e) => handleFilterActivities(e)}
+      >
         <option value="default" hidden>
           Actividad turistica
         </option>
@@ -124,11 +142,15 @@ function Home(props) {
           <option value={e.name}>{e.name}</option>
         ))}
       </select>
-      <select onChange={(e) => handleFilterContinent(e)}>
+      {/*//FILTRO POR CONTINENTE*/}
+      <select
+        className={homeStyle.seleccion}
+        value={continent}
+        onChange={(e) => handleFilterContinent(e)}
+      >
         <option value={"default"} hidden>
           Continent
         </option>
-        
         <option value="All">All</option>
         <option value="North America">North America</option>
         <option value="South America">South America</option>
@@ -138,42 +160,67 @@ function Home(props) {
         <option value="Africa">Africa</option>
         <option value="Antarctica">Antarctica</option>
       </select>
-      <select onChange={(e) => functionFilterAsc(e)}>
+      {/*//FILTRO ORDEN ALFABETICO ASCENDENTE Y DESCENDENTE------------*/}
+      <select
+        className={homeStyle.seleccion}
+        value={orderAz}
+        onChange={(e) => functionFilterAsc(e)}
+      >
+        <option value="default" hidden>
+          Orden alfabetico
+        </option>
         <option value="asc">A-Z</option>
         <option value="desc">Z-A</option>
       </select>
-      <select onChange={(e) => handlePopulation(e)}>
+      {/*//FILTRO POR POBLACION------------*/}
+      <select
+        className={homeStyle.seleccion}
+        value={orderPopulation}
+        onChange={(e) => handlePopulation(e)}
+      >
         <option value="default" hidden>
-          Poblacion
+          Ordenar por numero de poblacion
         </option>
-        <option value="popuAsc">Ordenar Ascendentemente</option>
-        <option value="popuDesc">Ordenar Descendentemente</option>
+        <option value="popuAsc">Ordenar Ascendentemente poblacion</option>
+        <option value="popuDesc">Ordenar Descendentemente poblacion</option>
       </select>
+      {/*//CREAR ACTIVIDAD---------------------------------*/}
+      <Link className={homeStyle.actividadTuristica} to={"/createActivity"}>
+        <input
+          className={homeStyle.actividadTuristica}
+          type="button"
+          value="Crear Actividad Turistica"
+        ></input>
+      </Link>
+      
+      {/*//PAGINADO ------------------------------*/}
       <Paginado
         countriesPerPage={countriesPerPage}
         paginado={paginado}
         countries={props.countries.length}
       />
-
+      </div>
       {/* botones PAGINADO siguiente y atras */}
       {/* <button onClick={() => nextPage()}>Siguiente</button>
       <button onClick={() => prevPage()}>Atras</button> */}
-      <div>
+      {/* RENDER CARD PAISES ---------------------------------------*/}
+      <div className={homeStyle.divCountries}>
         {countriesActuales &&
           countriesActuales.map((e) => (
-            <div key={e.id}>
-              <CountryCard
-                id={e.id}
-                name={e.name}
-                imagecountry={e.imagecountry}
-                continent={e.continent}
-              />
-            </div>
+            <CountryCard
+              id={e.id}
+              name={e.name}
+              imagecountry={e.imagecountry}
+              continent={e.continent}
+            />
           ))}
+      </div>
       </div>
     </React.Fragment>
   );
 }
+
+//CONNECT------------------------------
 function mapStateToProps(state) {
   return {
     countries: state.countries,

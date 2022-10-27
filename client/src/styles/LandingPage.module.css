@@ -1,0 +1,26 @@
+
+.buttonHome{
+    background-image: url("./imagen/png-transparent-globe-globe-miscellaneous-globe-photography-thumbnail-modified.png");
+    background-size: contain;
+  background-color: rgb(203, 170, 125);   
+  
+  
+    border-radius: 100px;
+    border-color:transparent;
+    height: 200px;
+    width: 200px;
+    font-weight: bolder;
+    color:rgba(167, 194, 180, 0.545);
+    font-size: 40px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+
+
+}
+
+.buttonHome:hover{
+    background-color: rgb(174, 174, 106);
+    cursor: pointer;
+    background-blend-mode: overlay;
+
+}

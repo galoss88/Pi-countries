@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import searchStyle from "../styles/Search.module.css";
 export default function Search(props) {
   const [search, setSearch] = useState("");
   function Search(e) {
@@ -15,12 +15,18 @@ export default function Search(props) {
   return (
     <React.Fragment>
       <input
+      className={searchStyle.buscador}
         type="search"
         value={search}
         placeholder="search"
         onChange={(e) => Search(e)}
       />
-      <input type="submit" value="Search" onClick={(e) => HandleSearch(e)} />
+      <input
+        className={searchStyle.seleccion}
+        type="submit"
+        value="Search"
+        onClick={(e) => HandleSearch(e)}
+      />
     </React.Fragment>
   );
 }

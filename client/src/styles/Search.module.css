@@ -1,0 +1,25 @@
+.seleccion:hover {
+  color: white;
+  background-color: rgb(44, 36, 3);
+  border: none;
+  cursor: pointer;
+}
+.seleccion {
+  display: inline-flex;
+  margin: 10px;
+  font-family: cursive;
+  font-weight: bold;
+  background-color: rgba(255, 179, 80, 0.542);
+  text-decoration: none;
+  
+}
+.buscador{
+  background-color: rgba(255, 179, 80, 0.542);
+  width: 200px;
+  height: 30px;
+  color:black;
+  border-color:black;
+  font-weight: bold;
+  
+  
+}

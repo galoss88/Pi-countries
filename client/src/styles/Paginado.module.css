@@ -1,0 +1,15 @@
+.buttonPaginado{
+    border-radius: 10px;
+    background-color: rgb(202, 156, 96);
+    min-width: 40px;
+    min-height: 20px;
+}
+.seleccion:hover{
+    color:chocolate;
+    background-color: brown;
+    cursor: pointer;
+    
+}
+.li{
+    list-style: none;
+}

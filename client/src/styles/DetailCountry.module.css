@@ -1,0 +1,30 @@
+.general {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.div {
+  margin: 10px;
+  background-color: bisque;
+  width: 800px;
+  column-count: 2;
+  column-gap: 20px;
+  column-rule: 4px double black;
+  list-style: none;
+}
+.img {
+  width: 300px;
+  height: 200px;
+}
+.buttonAtras {
+  height: 50px;
+  width: 150px;
+  border-radius: 10px;
+  font-size: 30px;
+}
+.buttonAtras:hover {
+  color: white;
+  background-color: rgb(44, 36, 3);
+  border: none;
+  cursor: pointer;
+}

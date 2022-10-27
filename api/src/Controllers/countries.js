@@ -28,27 +28,9 @@ const getCountries = async (req, res) => {
         : res.status(400).json("No se encontro Pais");
     }
 
-    //       const country = await Country.findAll({
-    //         where: { id: id },
-    //         include: {
-    //           model: TouristActivity,
-    //           attributes: ["name", "difficulty", "duration", "season"],
-    //           through: {
-    //             attributes: [],
-    //           },
-    //         },
-    //       });
-    //       return res.status(200).json(country);
-    //     }
-    //     res.status(400).json("No se encontro pais");
-    //   } catch (e) {
-    //     res.status(400).json(e);
-    //   }
-
     //Traer paises por nombre -------------------
 
     if (req.query.name) {
-      console.log(req.query.name, "ENTRO QUERY NAME PAIS");
       let { name } = req.query;
       let countryName = await countrieAll.filter((e) =>
         e.name.toLowerCase().includes(name.toLowerCase())
@@ -84,30 +66,5 @@ const getCountries = async (req, res) => {
     res.json(error);
   }
 };
-
-// const getCountriesId = async (req, res) => {
-//   try {
-//     let { id } = req.params;
-//     let countrieId = await Country.findByPk(id);
-//     console.log(countrieId);
-
-//     if (countrieId) {
-//       const country = await Country.findAll({
-//         where: { id: id },
-//         include: {
-//           model: TouristActivity,
-//           attributes: ["name", "difficulty", "duration", "season"],
-//           through: {
-//             attributes: [],
-//           },
-//         },
-//       });
-//       return res.status(200).json(country);
-//     }
-//     res.status(400).json("No se encontro pais");
-//   } catch (e) {
-//     res.status(400).json(e);
-//   }
-// };
 
 module.exports = getCountries;
