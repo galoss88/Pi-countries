@@ -39,7 +39,6 @@ function Home(props) {
     setContinent("default");
     setOrderAz("default");
     setOrderPopulation("default");
-
     props.getCountries();
   }
 
@@ -52,8 +51,7 @@ function Home(props) {
   let indexOfFirstCountry;
 
   if (actualPage > 1) {
-    
-    indexOfFirstCountry = indexOfLastCountry-1 - countriesPerPage;
+    indexOfFirstCountry = indexOfLastCountry - 1 - countriesPerPage;
     indexOfLastCountry = indexOfLastCountry - 1;
   } else {
     if (actualPage === 1) {
@@ -86,6 +84,7 @@ function Home(props) {
   const [continent, setContinent] = useState("");
   function handleFilterContinent(e) {
     props.orderContinent(e.target.value);
+    paginado(1);
     setContinent(e.target.value);
   }
 
@@ -95,7 +94,6 @@ function Home(props) {
   function handleFilterActivities(e) {
     dispatch(orderForTouristActivity(e.target.value));
     setActivities(e.target.value);
-    
   }
 
   const touristActivities = useSelector((state) => state.touristActivities);

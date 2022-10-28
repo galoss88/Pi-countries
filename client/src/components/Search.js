@@ -9,6 +9,7 @@ export default function Search(props) {
     e.preventDefault();    
     !search ? alert("Busqueda vacia") : props.searchCountries(search);
     setSearch("");
+    
   }
 
   return (

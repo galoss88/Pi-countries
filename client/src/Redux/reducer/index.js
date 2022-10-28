@@ -39,18 +39,26 @@ export default function rootReducer(state = initialState, action) {
       };
     }
     case SEARCH_COUNTRY: {
-      let searchCountry = state.allCountries.filter((e) =>
+      
+        let searchCountry = state.allCountries.filter((e) =>
         e.name.toLowerCase().includes(action.payload.toLowerCase())
       );
-
-      if (!searchCountry.length) {
-        return alert("No se encontro el pais correspondiente");
-      } else {
-        return {
-          ...state,
-          countries: searchCountry,
-        };
+      console.log(searchCountry)
+      //[]
+      if(!searchCountry.length){
+        alert("No esta pais")
       }
+      return {
+        ...state,
+        countries: searchCountry,
+      }
+      
+        // return alert("No se encontro el pais correspondiente");
+
+     
+    
+
+      
     }
     case ORDER_COUNTRIES_ASC: {
       let ordenAscOrDesc;
