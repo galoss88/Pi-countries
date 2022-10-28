@@ -1,20 +1,25 @@
 import React from "react";
-import paginadoStyle from "../styles/Paginado.module.css"
+import paginadoStyle from "../styles/Paginado.module.css";
 
-export default function Paginado({ countries, paginado }) {
+export default function Paginado({ countries, paginado, countriesPerPage }) {
   const pageNumber = [];
-  for (let i = 0; i <= Math.ceil(countries / 10 - 1); i++) {
-    pageNumber.push(i + 1);
+  for (let i = 1; i <= Math.ceil(countries / 10); i++) {
+    pageNumber.push(i);
   }
+  //[1,2,3...25]
 
   return (
     <React.Fragment>
       <nav>
-        <ul >
+        <ul>
           <li className={paginadoStyle.li}>
             {pageNumber &&
               pageNumber.map((number) => (
-                <button className={`${paginadoStyle.seleccion} ${paginadoStyle.buttonPaginado}`} key={number} onClick={() => paginado(number)}>
+                <button
+                  className={`${paginadoStyle.seleccion} ${paginadoStyle.buttonPaginado}`}
+                  key={number}
+                  onClick={() => paginado(number)}
+                >
                   {number}
                 </button>
               ))}

@@ -1,5 +1,5 @@
 const { TouristActivity, Country } = require("../db.js");
-const getTouristActivity = async (req, res) => {
+const postTouristActivity = async (req, res) => {
   try {
     let { name, difficulty, duration, season, countries } = req.body;
     let [activity, created] = await TouristActivity.findOrCreate({
@@ -22,8 +22,10 @@ const getTouristActivity = async (req, res) => {
             .status(200)
             .json("Actividad creada y asociada al pais correspondiente!");
     }
-
-    res.status(200).json("Actividad creada sin asociarse a ningun pais");
+else{
+  res.status(200).json("Actividad creada sin asociarse a ningun pais");
+}
+    
   } catch (e) {
     res.status(400).json(e);
   }
@@ -35,10 +37,10 @@ const getActivity = async (req, res, next) => {
       include: Country,
     });
     console.log("activities db", activities);
-    return res.json(activities);
+    return res.status(200).json(activities);
   } catch (error) {
-    return next(error);
+    return res.status(404).json(error.message);
   }
 };
 
-module.exports = { getTouristActivity, getActivity };
+module.exports = { postTouristActivity, getActivity };

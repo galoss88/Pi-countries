@@ -8,7 +8,7 @@ export default function CountryCard(props) {
       <div className={styles.styleDiv2}>
         <Link className={styles.tituloPais} to={`/countries/${props.id}`}>
         
-            <h2 className={styles.tituloPais}>{props.name}</h2>
+            <h1 className={styles.tituloPais}>{props.name}</h1>
             <hr />
             <h2>{props.continent}</h2>
             <img

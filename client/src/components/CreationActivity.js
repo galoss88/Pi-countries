@@ -5,14 +5,14 @@ import { getCountries, postTouristActivity } from "../Redux/actions";
 import creation from "../styles/CreationActivity.module.css";
 
 export default function CreationActivity(props) {
-  const history = useHistory()
-  
-  //Traer INFORMACION
+  const history = useHistory();
+
+  //Traer INFORMACION ----------->>
   const dispatch = useDispatch();
   const countrys = useSelector((state) => state.countries);
   useEffect(() => dispatch(getCountries()), []);
 
-  //Estados locales
+  //Estados locales ------------>>
   const [input, setInput] = useState({
     name: "",
     difficulty: "",
@@ -20,68 +20,70 @@ export default function CreationActivity(props) {
     season: "",
     countries: [],
   });
-  //ERRORES
-  const [error, setError] = useState([{errorName: "", errorDifficulty:"", errorDuration:"", sinError:true,}]);
-
-  function handleChangeSelect(e) {
-    //opcion 1
-    let options = Array.from(e.target.selectedOptions).map((e) => e.value);
-
-    setInput({ ...input, countries: options });
-  }
-  // valite que funciona
-  // function validate(value) {
-  //   let validar = /^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/;
-  //   if (validar.test(value.trim())) {
-  //     setInput({ ...input, name: value });
-  //     setError("");
-  //   } else {
-  //     setError("No se permite simbolos ni numeros");
-  //   }
-  // }
-
+  //ERRORES -----
+  const [error, setError] = useState([
+    { errorName: "", errorDifficulty: "", errorDuration: "", sinError: true },
+  ]);
+  
+  //funcion de validacion de inputs ------------------------------>>
   function validate(e) {
-    if (!error.filter((e) => e.sinError === true).length) {
-      setError([{errorName: "", errorDifficulty:"", errorDuration:"", sinError:true,}]);
-    }
-    
-    //Validar nombre actividad
+    //Validar nombre actividad ---------------------->
     if (e.target.name === "name") {
       let validar = /^[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]*$/;
       if (!validar.test(e.target.value)) {
-        setError([{...error[0], errorName: "No se admite numeros ni simbolos", sinError:false }]);
+        setError([
+          {
+            ...error[0],
+            errorName: "No se admite numeros ni simbolos",
+            sinError: false,
+          },
+        ]);
       } else {
-        setError([{...error[0], errorName: "", sinError:true }]);
+        setError([{ ...error[0], errorName: "", sinError: true }]);
       }
     }
-    //Validar dificultad   COLOCAR ARRAY EN ERRORES
+    //Validar dificultad   COLOCAR ARRAY EN ERRORES ----------->
 
     if (e.target.name === "difficulty") {
-      
       e.target.value < 1 || e.target.value > 5
-        ? setError([{...error[0],  errorDifficulty: "Solo valores entre 1 y 5", sinError:false }])
-        : setError([{...error[0], errorDifficulty: "", sinError:true }]);
-    }
-    //validar DURATION
-    if (e.target.name === "duration") {
-      e.target.value == 0 || e.target.value > 48
-        ? setError([{
-            ...error[0],
-             errorDuration: "Solo se admite valores entre 1 y 48", sinError:false }
+        ? setError([
+            {
+              ...error[0],
+              errorDifficulty: "Solo valores entre 1 y 5",
+              sinError: false,
+            },
           ])
-        : setError([{...error[0],  errorDuration: "", sinError:true }]);
+        : setError([{ ...error[0], errorDifficulty: "", sinError: true }]);
+    }
+    //validar DURATION -------------->
+    if (e.target.name === "duration") {
+      console.log(typeof e.target.value);
+      e.target.value === "0" || e.target.value > 48
+        ? setError([
+            {
+              ...error[0],
+              errorDuration: "Solo se admite valores entre 1 y 48",
+              sinError: false,
+            },
+          ])
+        : setError([{ ...error[0], errorDuration: "", sinError: true }]);
     }
   }
-
+  //handleChange input de name, duration, difficulty, season -------->>
   function handleChange(e) {
     validate(e);
-
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
   }
+  // handle change del select de countries -------------------->>
+  function handleChangeSelect(e) {
+    let options = Array.from(e.target.selectedOptions).map((e) => e.value);
 
+    setInput({ ...input, countries: options });
+  }
+// handleSUBMIT ----------------------------------------->>
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(postTouristActivity(input));
@@ -89,18 +91,21 @@ export default function CreationActivity(props) {
       name: "",
       difficulty: "",
       duration: "",
-      season: "default",
+      season: "",
       countries: [],
-    })
+    });
   }
 
   return (
     <div className={creation.div}>
       <div className={creation.formulario}>
-      {/* <a href="javascript: history.go(-1)"><button>Volver atras</button></a> */}
-      <button onClick={history.goBack}>Atras</button>
+        {/* <a href="javascript: history.go(-1)"><button>Volver atras</button></a> */}
 
+        {/*//BOTON ATRAS ---------------------------------------------->>*/}
+        <button onClick={history.goBack}>Atras</button>
+        {/*ON SUBMIT ------------------------------------------->>*/}
         <form onSubmit={(e) => handleSubmit(e)}>
+          {/*// INPUT NOMBRE ACTIVIDAD ---------------------------->>*/}
           <label className={creation.textos}>Nombre de actividad: </label>
           <br />
 
@@ -111,13 +116,13 @@ export default function CreationActivity(props) {
             value={input.name}
             onChange={(e) => handleChange(e)}
           ></input>
-          {error[0]?.errorName ? <p>{error[0].errorName}</p> : null}
+          {error[0].errorName ? <p>{error[0].errorName}</p> : null}
           <br />
-
+          {/*//INPUT DIFICULTAD ---------------------------------------------->>*/}
           <label className={creation.textos}>Dificultad</label>
           <br />
           <input
-            className={error[0]?.errorDifficulty ? creation.error : null}
+            className={error[0].errorDifficulty ? creation.error : null}
             type="number"
             name="difficulty"
             placeholder="1-5"
@@ -126,12 +131,9 @@ export default function CreationActivity(props) {
             max="5"
             onChange={(e) => handleChange(e)}
           ></input>
-          {error[0]?.errorDifficulty ? (
-            <p>Solo se admite valores de 1 a 5</p>
-          ) : (
-            <br />
-          )}
-
+          {error[0]?.errorDifficulty ? <p>{error[0].errorDifficulty}</p> : null}
+          <br />
+          {/*//INPUT DURACION ---------------------------------------------->>*/}
           <label className={creation.textos}>Duracion(hs)</label>
           <br />
           <input
@@ -149,11 +151,15 @@ export default function CreationActivity(props) {
           ) : (
             <br />
           )}
-
+          {/*//INPUT TEMPORADA ---------------------------------------------->>*/}
           <label className={creation.textos}>Temporada</label>
           <br />
-          <select name="season" value={input.season} onChange={(e) => handleChange(e)}>
-            <option disabled selected value="default">
+          <select
+            name="season"
+            value={input.season}
+            onChange={(e) => handleChange(e)}
+          >
+            <option value="default" hidden>
               Seleccione Temporada
             </option>
             <option value="summer">Summer</option>
@@ -162,6 +168,7 @@ export default function CreationActivity(props) {
             <option value="spring">Spring</option>
           </select>
           <br />
+          {/*//SELECT PAISES ---------------------------------------------->>*/}
           <label className={creation.textos}>
             Seleccione un pais (OPCIONAL)
           </label>
@@ -174,7 +181,7 @@ export default function CreationActivity(props) {
             id="form"
             multiple
             name="countries[]"
-            size="7"
+            size="8"
             onChange={(e) => handleChangeSelect(e)}
           >
             <option disabled selected value="default">
@@ -190,6 +197,7 @@ export default function CreationActivity(props) {
           </select>
           <br />
           <br />
+          {/*//BOTON CREAR     ---------------------------------------------->>*/}
           {error[0].sinError === true ? (
             <input
               className={creation.enviar}

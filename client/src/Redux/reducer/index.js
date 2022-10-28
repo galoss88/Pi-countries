@@ -8,6 +8,7 @@ import {
   ORDER_FOR_POPULATION,
   GET_DETAILS,
   POST_TOURIST_ACTIVITY,
+  CLEAN_COUNTRY_DETAILS,
 } from "../actions";
 
 const initialState = {
@@ -109,14 +110,10 @@ export default function rootReducer(state = initialState, action) {
           if (t.name === action.payload) witchActivity.push(country);
         })
       );
-      console.log("acaaaaa", witchActivity);
-      const activities =
-        action.payload === "All" ? state.countries : witchActivity;
-      console.log(activities);
 
       return {
         ...state,
-        countries: activities,
+        countries: witchActivity,
       };
     }
     case ORDER_FOR_POPULATION: {
@@ -152,7 +149,7 @@ export default function rootReducer(state = initialState, action) {
     case GET_DETAILS:
       return { ...state, detailCountry: action.payload };
 
-    case "CLEAN_COUNTRY_DETAILS":
+    case CLEAN_COUNTRY_DETAILS:
       return {
         ...state,
         detailCountry: [],

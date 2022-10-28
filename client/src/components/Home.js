@@ -43,18 +43,20 @@ function Home(props) {
     props.getCountries();
   }
 
-  //PÁGINADO---------------------------------
+  //PÁGINADO----------------------------------------------- >>
   const [actualPage, setActualPage] = useState(1);
   let countriesPerPage;
   actualPage === 1 ? (countriesPerPage = 9) : (countriesPerPage = 10);
-  let indexOfFirstCountry;
-  let indexOfLastCountry = actualPage * countriesPerPage; //9 //20 //30
 
-  if (actualPage === 2) {
-    indexOfFirstCountry = indexOfLastCountry - 1 - countriesPerPage;
+  let indexOfLastCountry = actualPage * countriesPerPage; //9 //20 //30
+  let indexOfFirstCountry;
+
+  if (actualPage > 1) {
+    
+    indexOfFirstCountry = indexOfLastCountry-1 - countriesPerPage;
     indexOfLastCountry = indexOfLastCountry - 1;
   } else {
-    if (actualPage !== 2) {
+    if (actualPage === 1) {
       indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
     }
   }
@@ -67,12 +69,10 @@ function Home(props) {
   const paginado = (pageNumber) => {
     setActualPage(pageNumber);
   };
-  //--------------------------------------------------
+  //-------------------------------------------------- //
 
-  //----------------------------------------------------------
-
-  //Filtrado-------------------
-  //Filtrar paises por orden alfabetico.--------------------------------
+  //Filtrado------------------->>
+  //Filtrar paises por orden alfabetico.-------------------------------->>
   // eslint-disable-next-line no-unused-vars
   const [orderAz, setOrderAz] = useState("");
   function functionFilterAsc(e) {
@@ -81,7 +81,7 @@ function Home(props) {
     // setActualPage(1);
     setOrderAz(e.target.value);
   }
-  //Filtrar por continente----------------------------------------
+  //Filtrar por continente---------------------------------------->>
   // eslint-disable-next-line no-unused-vars
   const [continent, setContinent] = useState("");
   function handleFilterContinent(e) {
@@ -89,12 +89,13 @@ function Home(props) {
     setContinent(e.target.value);
   }
 
-  //Filtrar actividad turisticas-------------------------------
+  //Filtrar actividad turisticas------------------------------->>
   // eslint-disable-next-line no-unused-vars
-  const [activities, setActivities] = useState("");
+  const [activities, setActivities] = useState("default");
   function handleFilterActivities(e) {
     dispatch(orderForTouristActivity(e.target.value));
     setActivities(e.target.value);
+    
   }
 
   const touristActivities = useSelector((state) => state.touristActivities);
@@ -110,111 +111,114 @@ function Home(props) {
   return (
     <React.Fragment>
       <div className={homeStyle.divGeneral}>
+        <div>
+          {/* BOTON ATRAS---------------------------------------->> */}
+          <button
+            onClick={props.history.goBack}
+            className={homeStyle.seleccion}
+          >
+            Atras
+          </button>
+          {/*COMPONENTE DE BOTON BUSQUEDA----------------------------------->> */}
+          <Search
+            getCountries={props.getCountries}
+            searchCountries={props.searchCountries}
+          ></Search>
 
-      <div>
-      {/* BOTON ATRAS---------------------------------------- */}
-      <button onClick={props.history.goBack} className={homeStyle.seleccion}>
-        Atras
-      </button>
-      {/*COMPONENTE DE BOTON BUSQUEDA-----------------------------------*/}
-      <Search
-        getCountries={props.getCountries}
-        searchCountries={props.searchCountries}
-        setActualPage={setActualPage}
-      ></Search>
-      
-      {/*//BOTON RECARGAR PAISES-------------------------------*/}
-      <button className={homeStyle.seleccion} onClick={(e) => handleClick(e)}>
-        Recargar Paises
-      </button>
-      {/*//FILTROS:--- 
-      //FILTRO POR ACTIVIDAD TURISTICA-------------------------*/}
-      <select
-        className={homeStyle.seleccion}
-        value={activities}
-        onChange={(e) => handleFilterActivities(e)}
-      >
-        <option value="default" hidden>
-          Actividad turistica
-        </option>
-        <option value="All">All</option>
-        {touristActivities?.map((e) => (
-          <option value={e.name}>{e.name}</option>
-        ))}
-      </select>
-      {/*//FILTRO POR CONTINENTE*/}
-      <select
-        className={homeStyle.seleccion}
-        value={continent}
-        onChange={(e) => handleFilterContinent(e)}
-      >
-        <option value={"default"} hidden>
-          Continent
-        </option>
-        <option value="All">All</option>
-        <option value="North America">North America</option>
-        <option value="South America">South America</option>
-        <option value="Europe">Europe</option>
-        <option value="Asia">Asia</option>
-        <option value="Oceania">Oceania</option>
-        <option value="Africa">Africa</option>
-        <option value="Antarctica">Antarctica</option>
-      </select>
-      {/*//FILTRO ORDEN ALFABETICO ASCENDENTE Y DESCENDENTE------------*/}
-      <select
-        className={homeStyle.seleccion}
-        value={orderAz}
-        onChange={(e) => functionFilterAsc(e)}
-      >
-        <option value="default" hidden>
-          Orden alfabetico
-        </option>
-        <option value="asc">A-Z</option>
-        <option value="desc">Z-A</option>
-      </select>
-      {/*//FILTRO POR POBLACION------------*/}
-      <select
-        className={homeStyle.seleccion}
-        value={orderPopulation}
-        onChange={(e) => handlePopulation(e)}
-      >
-        <option value="default" hidden>
-          Ordenar por numero de poblacion
-        </option>
-        <option value="popuAsc">Ordenar Ascendentemente poblacion</option>
-        <option value="popuDesc">Ordenar Descendentemente poblacion</option>
-      </select>
-      {/*//CREAR ACTIVIDAD---------------------------------*/}
-      <Link className={homeStyle.actividadTuristica} to={"/createActivity"}>
-        <input
-          className={homeStyle.actividadTuristica}
-          type="button"
-          value="Crear Actividad Turistica"
-        ></input>
-      </Link>
-      
-      {/*//PAGINADO ------------------------------*/}
-      <Paginado
-        countriesPerPage={countriesPerPage}
-        paginado={paginado}
-        countries={props.countries.length}
-      />
-      </div>
-      {/* botones PAGINADO siguiente y atras */}
-      {/* <button onClick={() => nextPage()}>Siguiente</button>
-      <button onClick={() => prevPage()}>Atras</button> */}
-      {/* RENDER CARD PAISES ---------------------------------------*/}
-      <div className={homeStyle.divCountries}>
-        {countriesActuales &&
-          countriesActuales.map((e) => (
-            <CountryCard
-              id={e.id}
-              name={e.name}
-              imagecountry={e.imagecountry}
-              continent={e.continent}
-            />
-          ))}
-      </div>
+          {/*//BOTON RECARGAR PAISES------------------------------->>  */}
+          <button
+            className={homeStyle.seleccion}
+            onClick={(e) => handleClick(e)}
+          >
+            Recargar Paises
+          </button>
+          {/*//FILTROS:--- 
+      //FILTRO POR ACTIVIDAD TURISTICA------------------------->>*/}
+          <select
+            className={homeStyle.seleccion}
+            value={activities}
+            onChange={(e) => handleFilterActivities(e)}
+          >
+            <option value="default" hidden>
+              Actividad turistica
+            </option>
+
+            {touristActivities?.map((e) => (
+              <option value={e.name}>{e.name}</option>
+            ))}
+          </select>
+          {/*//FILTRO POR CONTINENTE ---------------------------->>*/}
+          <select
+            className={homeStyle.seleccion}
+            value={continent}
+            onChange={(e) => handleFilterContinent(e)}
+          >
+            <option value={"default"} hidden>
+              Continent
+            </option>
+            <option value="All">All</option>
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+            <option value="Oceania">Oceania</option>
+            <option value="Africa">Africa</option>
+            <option value="Antarctica">Antarctica</option>
+          </select>
+          {/*//FILTRO ORDEN ALFABETICO ASCENDENTE Y DESCENDENTE------------>>      */}
+          <select
+            className={homeStyle.seleccion}
+            value={orderAz}
+            onChange={(e) => functionFilterAsc(e)}
+          >
+            <option value="default" hidden>
+              Orden alfabetico
+            </option>
+            <option value="asc">A-Z</option>
+            <option value="desc">Z-A</option>
+          </select>
+          {/*//FILTRO POR POBLACION-------------------->> */}
+          <select
+            className={homeStyle.seleccion}
+            value={orderPopulation}
+            onChange={(e) => handlePopulation(e)}
+          >
+            <option value="default" hidden>
+              Ordenar por numero de poblacion
+            </option>
+            <option value="popuAsc">Ordenar Ascendentemente poblacion</option>
+            <option value="popuDesc">Ordenar Descendentemente poblacion</option>
+          </select>
+          {/*//CREAR ACTIVIDAD--------------------------------->> */}
+          <Link className={homeStyle.actividadTuristica} to={"/createActivity"}>
+            <input
+              className={homeStyle.actividadTuristica}
+              type="button"
+              value="Crear Actividad Turistica"
+            ></input>
+          </Link>
+
+          {/*//PAGINADO ------------------------------------->> */}
+          <Paginado
+            countriesPerPage={countriesPerPage}
+            paginado={paginado}
+            countries={props.countries.length}
+          />
+        </div>
+
+        {/* RENDER CARD PAISES --------------------------------------->> */}
+        <div className={homeStyle.divCountries}>
+          {countriesActuales &&
+            countriesActuales.map((e) => (
+              <CountryCard
+                key={e.id}
+                id={e.id}
+                name={e.name}
+                imagecountry={e.imagecountry}
+                continent={e.continent}
+              />
+            ))}
+        </div>
       </div>
     </React.Fragment>
   );

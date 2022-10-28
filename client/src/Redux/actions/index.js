@@ -8,11 +8,12 @@ export const ORDER_FOR_TOURIST_ACTIVITY = "ORDER_FOR_TOURIST_ACTIVITY";
 export const POST_TOURIST_ACTIVITY = "POST_TOURIST_ACTIVITY";
 export const ORDER_FOR_POPULATION = "ORDER_FOR_POPULATION";
 export const GET_DETAILS = "GET_DETAILS";
+export const CLEAN_COUNTRY_DETAILS = "CLEAN_COUNTRY_DETAILS"
 
 
 export function getCountries() {
   return async function (dispatch) {
-    var json = await axios.get("http://localhost:3001/countries");
+    var json = await axios.get("/countries");
     return dispatch({
       type: GET_COUNTRIES,
       payload: json.data,
@@ -23,7 +24,7 @@ export function getCountries() {
 
 export function getTouristActivity() {
   return async (dispatch) => {
-    let activities = await axios.get("http://localhost:3001/activities");
+    let activities = await axios.get("/activities");
     return dispatch({ type: GET_TOURIST_ACTIVITY, payload: activities.data });
   };
 }
@@ -32,7 +33,7 @@ export function postTouristActivity(payload) {
   console.log('payload',payload)
   try{
     return async (dispatch) => {
-      let json = await axios.post("http://localhost:3001/activities", payload);
+      let json = await axios.post("/activities", payload);
       dispatch({
         type:POST_TOURIST_ACTIVITY,
         payload: json
@@ -84,7 +85,7 @@ export function orderForPopulation(payload) {
 
 export const getDetails = (id) => async (dispatch) => {
   try {
-      const json = await axios.get(`http://localhost:3001/countries/${id}`); 
+      const json = await axios.get(`/countries/${id}`); 
       console.log('detalles',json.data)
       return dispatch({
           type: GET_DETAILS,
