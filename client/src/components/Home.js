@@ -93,6 +93,7 @@ function Home(props) {
   const [activities, setActivities] = useState("default");
   function handleFilterActivities(e) {
     dispatch(orderForTouristActivity(e.target.value));
+    paginado(1)
     setActivities(e.target.value);
   }
 

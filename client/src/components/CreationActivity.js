@@ -86,6 +86,15 @@ export default function CreationActivity(props) {
 // handleSUBMIT ----------------------------------------->>
   function handleSubmit(e) {
     e.preventDefault();
+    let vacio = [];
+    for(let p in input){
+      if(input[p] === "" || input[p] === []){
+        vacio.push("Vacio")
+      }      
+    }
+    if(vacio[0] === "Vacio" ){
+      return alert("Campos vacios: complete")
+    }
     dispatch(postTouristActivity(input));
     setInput({
       name: "",

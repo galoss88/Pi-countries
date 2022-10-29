@@ -39,27 +39,20 @@ export default function rootReducer(state = initialState, action) {
       };
     }
     case SEARCH_COUNTRY: {
-      
-        let searchCountry = state.allCountries.filter((e) =>
+      let searchCountry = state.allCountries.filter((e) =>
         e.name.toLowerCase().includes(action.payload.toLowerCase())
       );
-      console.log(searchCountry)
-      //[]
-      if(!searchCountry.length){
-        alert("No esta pais")
-      }
-      return {
-        ...state,
-        countries: searchCountry,
-      }
-      
-        // return alert("No se encontro el pais correspondiente");
 
-     
-    
-
-      
+      if (!searchCountry.length) {
+        alert("No esta pais");
+      } else {
+        return {
+          ...state,
+          countries: searchCountry,
+        };
+      }
     }
+    // eslint-disable-next-line no-fallthrough
     case ORDER_COUNTRIES_ASC: {
       let ordenAscOrDesc;
       if (action.payload === "asc") {
