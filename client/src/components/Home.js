@@ -39,6 +39,7 @@ function Home(props) {
     setContinent("default");
     setOrderAz("default");
     setOrderPopulation("default");
+    paginado(1);
     props.getCountries();
   }
 
@@ -93,7 +94,7 @@ function Home(props) {
   const [activities, setActivities] = useState("default");
   function handleFilterActivities(e) {
     dispatch(orderForTouristActivity(e.target.value));
-    paginado(1)
+    paginado(1);
     setActivities(e.target.value);
   }
 
