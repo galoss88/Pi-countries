@@ -44,7 +44,7 @@ export default function rootReducer(state = initialState, action) {
       );
 
       if (!searchCountry.length) {
-        alert("No esta pais");
+        alert("El pais no existe");
       } else {
         return {
           ...state,
