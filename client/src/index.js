@@ -7,7 +7,9 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./Redux/store/index.js";
 import dotenv from "dotenv";
-import axios from "axios"
+import axios from "axios";
+//idioma
+
 dotenv.config();
 
 axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
@@ -18,6 +20,7 @@ ReactDOM.render(
       <App />,
     </BrowserRouter>
   </Provider>,
+
   document.getElementById("root")
 );
 
